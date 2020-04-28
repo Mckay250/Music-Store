@@ -1,0 +1,11 @@
+<div id="search-component" class="">    
+    <input #searchBox id="search-box" (input)="search(searchBox.value)" placeholder="What are you looking for" />
+  
+    <!-- <ul class="search-result">
+      <li *ngFor="let song of songs$ | async" >
+        <a routerLink="product/{{product.id}}" class="text-white">
+          {{song.name}}
+        </a>
+      </li>
+    </ul> -->
+  </div>

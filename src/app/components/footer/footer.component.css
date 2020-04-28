@@ -1,0 +1,49 @@
+a {
+    color: white;
+    text-decoration: none;
+}
+a:hover {
+    color: red;
+}
+ul{
+    list-style: none;
+}
+.subscribe {
+    border-radius: 18px;
+    background-color: #2a2a2a;
+    opacity: 1;
+}
+.subscribe input {
+    padding-right: 10px;
+    padding-left: 10px;
+    width: 50%;
+    height: 30px;
+    font-size: 13px;
+    color: #fff;
+    border: none;
+    background: 0 0;
+}
+.subscribe input:focus {
+    outline: none;
+}
+#footer{
+    background-color: rgb(22, 22, 22);
+}
+.facebook:hover {
+    color: rgb(59, 56, 255);
+}
+.instagram:hover {
+    color: rgb(255, 42, 42);
+}
+.twitter:hover {
+    color: rgb(20, 177, 240);
+}
+.youtube:hover {
+    color: rgb(200, 1, 1);
+}
+.envelope:hover{
+    color: red;
+}
+.font-awesome {
+    font-size: 13pt;
+}

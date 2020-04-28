@@ -1,0 +1,27 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    font-family: Poppins,Roboto,"Helvetica Neue",sans-serif;
+    letter-spacing: .2px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+#search-component {
+    /* width: calc(100% - 32px); */
+    /* height: 36px; */
+    border-radius: 18px;
+    background-color: #2a2a2a;
+    opacity: 1;
+}
+
+#search-box {
+    padding-right: 10px;
+    padding-left: 10px;
+    height: 30px;
+    font-size: 13px;
+    color: #fff;
+    border: none;
+    background: 0 0;
+}
