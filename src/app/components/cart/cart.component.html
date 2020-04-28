@@ -1,0 +1,85 @@
+<div class="container-fluid cart">
+    <div>
+        <header>
+            <h1>Cart Contents</h1>
+        </header>
+
+        <div class="content">
+            <h6 *ngIf='!cartItems[0]'>The cart is currently empty</h6>
+            <ul *ngIf='cartItems[0]' class="cart-contents">
+                <li *ngFor='let item of cartItems' class="cart-item">
+                    <div class="left">
+                        <p class="title">{{item.title}}</p>
+                        <form>
+                            <div class="custom-control custom-radio">
+                                <input (click)='mp3PriceChange(item)' type="radio" id="{{item.id}}1" name="customRadio" value="mp3" checked class="custom-control-input">
+                                <label class="custom-control-label" for="{{item.id}}1">mp3</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input (click)='wavPriceChange(item)' type="radio" id="{{item.id}}2" name="customRadio" value="wav" class="custom-control-input">
+                                <label class="custom-control-label" for="{{item.id}}2">wav</label>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="right">
+                        <div (click)='removeItem(item)' class="close">
+                            <fa-icon [icon]="icons.remove"></fa-icon>
+                        </div>
+                        <div class="price">
+                            <span>{{item.price | currency}}</span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+        <div id="cart-summary">
+            <h1>Cart Summary</h1>
+    
+            <div class="finalize">
+                <div class="purchase-list">
+                    <ul *ngIf='cartItems[0]'>
+                        <li *ngFor='let item of cartItems' class="purchase-item">
+                            <span class="item-title">
+                                {{item.title}}
+                            </span>
+
+                            <span class="item-price">
+                                {{item.price | currency}}
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+    
+                <hr>
+    
+                <div class="payout">
+                    <div class="gross">
+                        <span>Total Gross</span>
+                        <span>{{totalGross | currency}}</span>
+                    </div>
+                    <!-- <p><span>Discount</span><span>-amount</span></p> -->
+                    <div class="total">
+                        <span>Total</span>
+                        <span>{{totalGross | currency}}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div *ngIf='cartItems[0]' class="checkout">
+                <div class="payment">
+                    <p>Enter Your Email Address Below</p>
+                    <input type="email" placeholder="Email Address" required>
+                    <button><fa-icon [icon]='icons.paypal'></fa-icon> Pay with Paypal</button>
+                </div>
+
+                <div class="info">
+                    <p>After Payment, a mail with the download link will be sent into the email address you entered above</p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

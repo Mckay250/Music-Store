@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap');
+
+*{
+    margin: 0px;
+    padding: 0px;
+}
+.home{
+    height: 100vh;
+    /* background-color: rgb(228, 49, 26);
+    background-image: linear-gradient(rgb(187, 6, 6), rgb(255, 1, 1) 60%, black); */
+    background-image: linear-gradient(180deg, rgb(255, 62, 36), rgb(241, 30, 11) 60%, rgb(0, 0, 0));
+    justify-content: center;
+    text-align: center;
+}
+.front{
+    font-family: 'Oswald', sans-serif;
+    margin: auto;
+    padding: 0rem;
+    padding-top: 3rem;
+    max-width: 80%;
+    color: white;
+}
+.front2{
+    height: 70vh;
+    max-width: 80%;
+    margin: auto;
+}
+.front-group{
+    margin: 0pt;
+    padding: 0pt;
+}
+.front-image{
+    background-image: url(../../../assets/images/sp-global-producttilev2-red.png.large.1x.png);
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+@media (min-width: 1650){
+    .home{
+        display: inline-block;
+    }
+}
+@media (max-width: 587px) {
+    .front-image{
+        background-image: url(../../../assets/images/sp-global-producttilev2-red.png.large.1x_50.png);
+        margin-top: 0rem;
+        background-repeat: no-repeat;
+        background-size: auto;
+    }
+    .front{
+        padding-top: 4rem;
+    }
+}
+.front-heading{
+    font-size: 4rem;
+    text-shadow: -1px 0px 7px rgba(163, 168, 156, 1);
+}
+.front-text{
+    font-size: 2rem;
+    padding-top: 3px;
+    text-shadow: -1px 0px 7px rgba(163, 168, 156, 1);
+}
+@media (max-width: 456px) {
+    .front-group{
+        margin: 0;
+    }
+    .front-heading{
+        font-size: 2rem;
+        margin-bottom: 0rem;
+    }
+    .front-text{
+        font-size: 1rem;
+        margin-bottom: 0rem;
+    }
+    .front-image{
+        margin-top: 4rem;
+    }
+    .front2{
+        height:70vh;
+    }
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+    .my-carousel .carousel {
+        width: 30%;
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {  }
+
+section{
+    border: 0px !important;
+    margin: 0px !important;
+}
+/* // .play{
+//      vertical-align: middle;
+//      align-self: center;
+// } */
+.section1{
+    height: 100vh;
+    background-color: black;
+}
+.new{
+    display: inline-block;
+    width: 15rem;
+    margin: 1rem;
+}
+.my-carousel {
+    position: absolute;
+    width: 100%;
+    height: 30%;
+    justify-content: center;
+    display: flex;
+    align-items: flex-start;
+}
+.my-carousel .carousel {
+    width: 30%;
+    position: relative;
+}
+.my-carousel .card {
+    border: none;
+}
+.beat-store-button {
+    margin: 5px 0;
+    border: solid 1.1px white;
+    padding: 1px 6px;
+    border-radius: 10px;
+    background: transparent;
+    cursor: pointer;
+    color: white;
+}
+.beat-store-button:hover {
+    background: white;
+    color: rgb(255, 62, 36);
+}
+.new-track {
+    position: absolute;
+    top: .5rem;
+    left: .3rem;
+    font-size: small;
+    background-color: red;
+    color: white;
+    width: 20%;
+}

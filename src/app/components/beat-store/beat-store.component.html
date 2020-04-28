@@ -1,0 +1,144 @@
+<div class="container-fluid body">
+    <div class="store">
+
+        <aside class="container  side-bar">
+            <div class="container filters">
+
+                <div class="header">
+                    <h1>FILTERS</h1>
+                </div>
+
+                <section>
+                    <h2>BPM</h2>
+                    <div class="dropdown">
+                        <button (click)="dropdownChange()" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Choose Range
+                        </button>
+                        <div id="bpm-dropdown" class="dropdown-menu {{dropdown.style}}" aria-labelledby="dropdownMenu2">
+                          <button class="dropdown-item" type="button">50-100</button>
+                          <button class="dropdown-item" type="button">100-150</button>
+                          <button class="dropdown-item" type="button">150-200</button>
+                        </div>
+                    </div>
+                      
+                </section>
+
+            </div>
+        </aside>
+
+        <section class="store-section">
+            <head class="container store-header">
+                <h1>Beat Store</h1>
+            </head>
+
+            <div class="artwork">
+                <img src="{{trackSelection.artwork}}" alt="track artwork">
+            </div>
+            
+            <div class="track-list">
+                <ul id='infiniteScroll' infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
+                    <li *ngFor='let track of tracks' class="track">
+                            <div (click)="selectTrack(track)" class="track-info"> 
+                                <img src="{{track.artwork}}" alt="track artwork" class="track-image">
+                                <div class="track-details">
+                                    <p class="track-name">{{track.title}}</p>
+                                    <div class="track-metadata">
+                                        <span>
+                                            {{track.bpm}}BPM | Key: {{track.key}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="buttons">
+
+                                <a *ngIf="(track.mp3_price == 0)" href="{{track.sample_audio}}" download="{{track.title}}">
+                                    <button class="track-download">
+                                        <fa-icon class="button-icon" [icon]="icons.download"></fa-icon>
+                                    </button>
+                                </a>
+                                <button (click)='addToCart(track)' class="cart {{track.trackStatus}}">
+                                    <span>
+                                        <fa-icon class="button-icon" [icon]="icons.addToCart"></fa-icon>
+                                        <span class="cart-price">{{track.mp3_price | currency}}</span>
+                                    </span>
+                                </button>
+                            </div>
+                    </li>
+                </ul>
+                <!-- Spinner -->
+                <div class="row pb-5">
+                    <div class="col-md-12 p-5">
+                        <ngx-spinner
+                        bdOpacity = 0.9
+                        bdColor = ''1
+                        size = 'default'
+                        color = 'white'
+                        type = 'pacman'
+                        [fullScreen] = 'false'>
+                        </ngx-spinner>
+                    </div>
+                </div>
+                <div *ngIf='!notEmptyPost' class="row pb-5">
+                    <div class="col-md-12 d-flex justify-content-center">
+                        <div class="text-muted h6 alert alert-secondary p-2">
+                            No more tracks to show
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    
+</div>
+
+<div class="container-fluid px-0 player">
+    <audio src="{{trackSelection.sample_audio}}" id="track"></audio>
+    <div class="seek-bar">
+        <input type="range" (input)=sliderChange(slider.value) #slider id="progress-bar" [value]='sliderValue'>
+    </div>
+    <div class="time">
+        <span class="currentTime">{{sliderValue | minuteSecondPipe}}</span>
+        <span class="totalTime">{{totalValue | minuteSecondPipe}}</span>
+    </div>
+    <div class="container-fluid px-0 mx-0 player-content">
+        <div class="container info">
+            <div class="wrapper">
+                <img class="trackSelection-artwork" src="{{trackSelection.artwork}}" alt="Track Artwork">
+                <div class="trackSelection">
+                    <p>{{trackSelection.title}}</p>
+                    <p class="playerBPM">{{trackSelection.bpm}}BPM</p>
+                </div>
+            </div>
+            <div class="track-action">
+                <p class='player-price'>{{trackSelection.mp3_price | currency}}</p>
+            </div>
+        </div>
+        
+        <div class="container controls">
+            <div (click)=shuffleSong() class="shuffle">
+                <fa-icon [icon]="icons.shuffle" class="controller {{shuffle.display}}"></fa-icon>
+            </div>
+            <div (click)=previousTrack() class="previous">
+                <fa-icon [icon]="icons.previous" class="controller"></fa-icon>
+            </div>
+            <div (click)=playPause() class="play-pause">
+                <fa-icon *ngIf="(paused)"  [icon]="icons.play" class="play"></fa-icon>
+                <fa-icon *ngIf="!(paused)"  [icon]="icons.pause" class="play"></fa-icon>
+            </div>
+            <div (click)=nextTrack()  class="next">
+                <fa-icon [icon]="icons.next" class="controller"></fa-icon>
+            </div>
+
+        </div>
+
+        <div class="continer actions">
+            <div class="volume">
+                <input (input)='volumeChange(volumme.value)' #volumme type="range" id="volume" min=0 max=1.0 step=0.1 value=0.5>
+            </div>
+        </div>
+    </div>
+</div>
