@@ -28,7 +28,7 @@
 
         <section class="store-section">
             <head class="container store-header">
-                <h1>Beat Store</h1>
+                <h1>Search Result</h1>
             </head>
 
             <div class="artwork">
@@ -51,7 +51,8 @@
                             </div>
 
                             <div class="buttons">
-                                <a *ngIf="(track.mp3_price == 0)" title="Download" href="{{track.mp3}}" download="{{track.title}}">
+
+                                <a *ngIf="(track.mp3_price == 0)" href="{{track.mp3}}" download="{{track.title}}">
                                     <button class="track-download">
                                         <fa-icon class="button-icon" [icon]="icons.download"></fa-icon>
                                     </button>
@@ -62,7 +63,7 @@
                                         <span class="cart-price">Free</span>
                                     </span>
                                 </button>
-                                <button *ngIf="(track.mp3_price > 0)" title="Add To Cart" (click)='addToCart(track)' class="cart {{track.trackStatus}}">
+                                <button *ngIf="(track.mp3_price > 0)" (click)='addToCart(track)' class="cart {{track.trackStatus}}">
                                     <span>
                                         <fa-icon class="button-icon" [icon]="icons.addToCart"></fa-icon>
                                         <span class="cart-price">{{track.mp3_price | currency}}</span>
@@ -74,8 +75,8 @@
                 <div class="row pb-5">
                     <div class="col-md-12 p-5">
                         <ngx-spinner
-                        name = fetching
                         bdOpacity = 0.9
+                        name = fetching
                         bdColor = '1'
                         size = 'default'
                         color = 'white'

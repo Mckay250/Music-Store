@@ -17,6 +17,13 @@ import { MessagesComponent } from './components/messages/messages.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { HttpClientModule } from '@angular/common/http';
+import { PlayerComponent } from './components/player/player.component';
+import { SearchResultComponent } from './components/search-result/search-result.component';
+import { FormsModule } from "@angular/forms"
+import { CartService } from './services/cart.service';
+import { MessageService } from './services/message.service';
+import { PurchasedComponent } from './components/purchased/purchased.component';
+import { PurchasedItemsService } from './services/purchased-items.service';
 
 @NgModule({
   declarations: [
@@ -30,16 +37,20 @@ import { HttpClientModule } from '@angular/common/http';
     PageNotFoundComponent,
     BeatStoreComponent,
     MessagesComponent,
+    PlayerComponent,
+    SearchResultComponent,
+    PurchasedComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FontAwesomeModule,
+    FormsModule,
     InfiniteScrollModule,
     NgxSpinnerModule,
     HttpClientModule
   ],
-  providers: [TrackService],
+  providers: [TrackService, CartService, MessageService, PurchasedItemsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
