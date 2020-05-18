@@ -1,11 +1,21 @@
-<div id="search-component" class="">    
-    <input #searchBox id="search-box" (input)="search(searchBox.value)" placeholder="What are you looking for" />
-  
-    <!-- <ul class="search-result">
-      <li *ngFor="let song of songs$ | async" >
-        <a routerLink="product/{{product.id}}" class="text-white">
-          {{song.name}}
+<div id="search-component" class="search">    
+    <input #searchBox id="search-box" (click)="searchBoxClick()" [(ngModel)]="searchValue" (input)="search(searchBox.value)" placeholder="What are you looking for">
+    <span class="close-icon" *ngIf='searchValue.length' (click)='clearSearch()'><fa-icon class="button-icon" [icon]="icons.close"></fa-icon></span>
+    <ul class="search-result">
+      <p *ngIf="!exists && searchValue.length">No track matches your search</p>
+      <li *ngFor="let song of songs$ | async" (click)='routeTo(song.id)'>
+        <a class="text-white">
+          <div class="title">
+            {{song.title}}
+          </div>
+          <div class="meta">
+            {{song.bpm}}  |  {{song.key}}
+          </div>
+
         </a>
+        <hr>
       </li>
-    </ul> -->
+    </ul>
   </div>
+
+  <!-- [routerLink]="['/search', song.id]" -->

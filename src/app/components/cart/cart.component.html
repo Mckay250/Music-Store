@@ -26,7 +26,8 @@
                             <fa-icon [icon]="icons.remove"></fa-icon>
                         </div>
                         <div class="price">
-                            <span>{{item.price | currency}}</span>
+                            <span *ngIf="item.selected_type === 'mp3'">{{item.price | currency}}</span>
+                            <span *ngIf="item.selected_type === 'wav'">{{item.price | currency}}</span>
                         </div>
                     </div>
                 </li>
@@ -44,7 +45,10 @@
                                 {{item.title}}
                             </span>
 
-                            <span class="item-price">
+                            <span class="item-price" *ngIf="item.selected_type === 'mp3'">
+                                {{item.price | currency}}
+                            </span>
+                            <span class="item-price" *ngIf="item.selected_type === 'wav'">
                                 {{item.price | currency}}
                             </span>
                         </li>
@@ -68,16 +72,20 @@
             
             <div *ngIf='cartItems[0]' class="checkout">
                 <div class="payment">
-                    <p>Enter Your Email Address Below</p>
-                    <input type="email" placeholder="Email Address" required>
-                    <button><fa-icon [icon]='icons.paypal'></fa-icon> Pay with Paypal</button>
+                    <form>
+                        <label>Enter Your Email Address Below</label>
+                        <p style="font-size: small;"><span style="color: red;">* </span> Please ensure you are entering a valid email address</p>
+                        <input [(ngClass)]="email" type="email" placeholder="Email Address" required>
+                        <!-- <button><fa-icon [icon]='icons.paypal'></fa-icon> Pay with Paypal</button> -->
+                    </form>
                 </div>
 
                 <div class="info">
-                    <p>After Payment, a mail with the download link will be sent into the email address you entered above</p>
-
+                    <p>After Payment, a mail with the download link(s) will be sent to the email address you entered above</p>
                 </div>
             </div>
+            
+            <div id='paypal' #paypal></div>
         </div>
     </div>
 

@@ -1,19 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { TrackService } from 'src/app/services/track.service';
 import { faPauseCircle, faPlayCircle } from '@fortawesome/free-regular-svg-icons';
-import { faStepForward, faRandom, faDownload, faStepBackward, faCartPlus, faInfo } from '@fortawesome/free-solid-svg-icons'
-import { CartService } from 'src/app/services/cart.service';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { HttpErrorResponse } from '@angular/common/http';
+import {  faStepForward, faRandom, faDownload, faStepBackward, faCartPlus, faInfo } from '@fortawesome/free-solid-svg-icons'
 import { MessageService } from 'src/app/services/message.service';
-
+import { NgxSpinnerService } from 'ngx-spinner';
+import { PurchasedItemsService } from 'src/app/services/purchased-items.service';
 
 @Component({
-  selector: 'app-beat-store',
-  templateUrl: './beat-store.component.html',
-  styleUrls: ['./beat-store.component.css']
+  selector: 'app-purchased',
+  templateUrl: './purchased.component.html',
+  styleUrls: ['./purchased.component.css']
 })
-export class BeatStoreComponent implements OnInit {
+export class PurchasedComponent implements OnInit {
 
   icons = {
     pause : faPauseCircle,
@@ -35,8 +33,6 @@ export class BeatStoreComponent implements OnInit {
     state: false,
     display: 'text-danger'
   };
-
-
   audio = new Audio();
   tracks;
   trackSelection;
@@ -50,64 +46,13 @@ export class BeatStoreComponent implements OnInit {
   notScrollable = true;
   interval3;
 
-  
-  constructor( private trackService: TrackService,
-               private cartService: CartService,
-               private spinner: NgxSpinnerService,
-               private messageService: MessageService ) { }
+  constructor( private messageService: MessageService,
+               private purchaseService: PurchasedItemsService,
+               private spinner: NgxSpinnerService, ) { }
 
   ngOnInit(): void {
-    this.loadInitPost();
-  }
-
-  loadInitPost() {
-    this.trackService.getTracksByPage(this.currentPage)
-      .subscribe(
-        res => {
-        this.allTracks = res;
-        this.tracks = this.allTracks.results;
-        this.trackSelection = this.tracks[this.trackNumber];
-        this.audio.src = this.trackSelection.sample_audio;
-        },
-        err => {
-          this.messageService.add("Sorry, can't fetch tracks at this moment")}
-      )
-  }
-  // loading next page from the server
-  loadNextPost() {
-    this.trackService.getTracksByPage(this.currentPage + 1)
-      .subscribe(
-        res => {
-        this.newTracks = res
-        this.spinner.hide('fetching');
-        if (this.newTracks.results.length ===0) {
-          this.notEmptyPost = false;
-        }
-        this.tracks = this.tracks.concat(this.newTracks.results);
-        this.notScrollable = true;
-        },
-        err => {
-          if (err instanceof HttpErrorResponse) {
-            if (err.status == 404) {
-              this.messageService.add('All tracks fetched!')
-              this.spinner.hide('fetching');
-              this.notEmptyPost = false;
-            }
-          }
-          else {
-            this.messageService.add("Sorry, can't fetch tracks at this moment")
-          }
-        }
-      )
-    this.currentPage += 1;
-  }
-
-  onScroll() {
-    if (this.notScrollable && this.notEmptyPost){
-      this.spinner.show('fetching');
-      this.notScrollable = false;
-      this.loadNextPost();
-    }
+    this.tracks = this.purchaseService.purchased;
+    this.trackSelection = this.tracks[0];
   }
 
   volumeChange(value) {
@@ -119,12 +64,12 @@ export class BeatStoreComponent implements OnInit {
 
   sliderChange(value) {
     this.audio.currentTime = value;
-    const progressColor = 'linear-gradient(90deg, #fe2b0d ' + value + '%, rgba(87, 87, 87, 0.664) ' + value + '%)';
+    const progressColor = 'linear-gradient(90deg, rgb(17, 17, 17) ' + value + '%, rgba(87, 87, 87, 0.664) ' + value + '%)';
     document.getElementById('progress-bar').style.background = progressColor;
   }
 
   slider(value) {
-    const progressColor = 'linear-gradient(90deg, #fe2b0d ' + value + '%, rgba(87, 87, 87, 0.664) ' + value + '%)';
+    const progressColor = 'linear-gradient(90deg, rgb(17, 17, 17) ' + value + '%, rgba(87, 87, 87, 0.664) ' + value + '%)';
     document.getElementById('progress-bar').style.background = progressColor;
   }
 
@@ -152,7 +97,7 @@ export class BeatStoreComponent implements OnInit {
     this.trackNumber++;
     if (this.trackNumber > this.tracks.length - 1) { this.trackNumber = 0; }
     this.trackSelection = this.tracks[this.trackNumber];
-    this.audio.src = this.trackSelection.sample_audio;
+    this.audio.src = this.trackSelection.mp3;
     this.audio.pause();
     this.paused = true;
     this.playPause();
@@ -162,7 +107,7 @@ export class BeatStoreComponent implements OnInit {
     this.trackNumber--;
     if (this.trackNumber < 0) { this.trackNumber = this.tracks.length - 1; }
     this.trackSelection = this.tracks[this.trackNumber];
-    this.audio.src = this.trackSelection.sample_audio;
+    this.audio.src = this.trackSelection.mp3;
     this.audio.pause();
     this.paused = true;
     this.playPause();
@@ -201,38 +146,33 @@ export class BeatStoreComponent implements OnInit {
 
   selectTrack(trackToBePlayed) {
     this.trackSelection = trackToBePlayed;
-    this.audio.src = this.trackSelection.sample_audio;
+    this.audio.src = this.trackSelection.mp3;
     this.audio.pause()
     this.paused = true;
     this.playPause()
   }
 
-  dropdownChange() {
-    if (this.dropdown.disabled === true) {
-      this.dropdown.style = 'display';
-      this.dropdown.disabled = false;
-    }
-   else {
-     this.dropdown.style = 'noDisplay';
-     this.dropdown.disabled = true;
-   }
+  downloadWav() {
+    this.messageService.add('Downloading wav file!')
   }
 
-  addToCart(track) {
-    if (track.inCart == true) {
-      track.trackStatus = ''
-      track.inCart = false;
-      this.cartService.removeFromCart(track)
-    }
-    else {
-      track.trackStatus = 'cart-clicked';
-      track.inCart = true;
-      this.cartService.addToCart(track)
-    }
+  downloadMp3() {
+    this.messageService.add('Downloading mp3 file!')
   }
+  // dropdownChange() {
+  //   if (this.dropdown.disabled === true) {
+  //     this.dropdown.style = 'display';
+  //     this.dropdown.disabled = false;
+  //   }
+  //  else {
+  //    this.dropdown.style = 'noDisplay';
+  //    this.dropdown.disabled = true;
+  //  }
+  // }
 
   ngOnDestroy() {
     this.audio.pause();
     this.audio.src = '';
   }
+
 }

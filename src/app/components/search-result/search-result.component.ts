@@ -5,15 +5,15 @@ import { faStepForward, faRandom, faDownload, faStepBackward, faCartPlus, faInfo
 import { CartService } from 'src/app/services/cart.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'src/app/services/message.service';
 
-
 @Component({
-  selector: 'app-beat-store',
-  templateUrl: './beat-store.component.html',
-  styleUrls: ['./beat-store.component.css']
+  selector: 'app-search-result',
+  templateUrl: './search-result.component.html',
+  styleUrls: ['./search-result.component.css']
 })
-export class BeatStoreComponent implements OnInit {
+export class SearchResultComponent implements OnInit {
 
   icons = {
     pause : faPauseCircle,
@@ -35,8 +35,6 @@ export class BeatStoreComponent implements OnInit {
     state: false,
     display: 'text-danger'
   };
-
-
   audio = new Audio();
   tracks;
   trackSelection;
@@ -48,37 +46,51 @@ export class BeatStoreComponent implements OnInit {
   currentPage: number = 1;
   notEmptyPost = true;
   notScrollable = true;
+  searchTerm: string;
+  routeId: number;
   interval3;
 
-  
-  constructor( private trackService: TrackService,
-               private cartService: CartService,
-               private spinner: NgxSpinnerService,
-               private messageService: MessageService ) { }
+  constructor(  private route: ActivatedRoute,
+                private trackService: TrackService,
+                private cartService: CartService,
+                private spinner: NgxSpinnerService,
+                private messageService: MessageService) { }
 
   ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      this.routeId = +params.get('id');
+    });
     this.loadInitPost();
+    this.trackService.getSelectedSearch(this.routeId)
+      .subscribe(
+        res => {
+          this.trackSelection = res;
+          this.audio.src = this.trackSelection.sample_audio;
+        },
+        err => {
+          this.messageService.add("Sorry, can't fetch tracks at this moment")
+        }
+      )
   }
 
   loadInitPost() {
-    this.trackService.getTracksByPage(this.currentPage)
+    this.trackService.getSearchTracksByPage(this.currentPage, this.trackService.previousSearchTerm)
       .subscribe(
         res => {
         this.allTracks = res;
         this.tracks = this.allTracks.results;
-        this.trackSelection = this.tracks[this.trackNumber];
-        this.audio.src = this.trackSelection.sample_audio;
         },
         err => {
-          this.messageService.add("Sorry, can't fetch tracks at this moment")}
+          this.messageService.add("Sorry, can't fetch tracks at this moment")
+        }
       )
   }
   // loading next page from the server
   loadNextPost() {
-    this.trackService.getTracksByPage(this.currentPage + 1)
+    this.trackService.getSearchTracksByPage(this.currentPage + 1, this.trackService.previousSearchTerm)
       .subscribe(
         res => {
-        this.newTracks = res
+        this.newTracks = res;
         this.spinner.hide('fetching');
         if (this.newTracks.results.length ===0) {
           this.notEmptyPost = false;
@@ -119,27 +131,27 @@ export class BeatStoreComponent implements OnInit {
 
   sliderChange(value) {
     this.audio.currentTime = value;
-    const progressColor = 'linear-gradient(90deg, #fe2b0d ' + value + '%, rgba(87, 87, 87, 0.664) ' + value + '%)';
+    const progressColor = 'linear-gradient(90deg, #23b5c8 ' + value + '%, rgba(87, 87, 87, 0.664) ' + value + '%)';
     document.getElementById('progress-bar').style.background = progressColor;
   }
 
   slider(value) {
-    const progressColor = 'linear-gradient(90deg, #fe2b0d ' + value + '%, rgba(87, 87, 87, 0.664) ' + value + '%)';
+    const progressColor = 'linear-gradient(90deg, #23b5c8 ' + value + '%, rgba(87, 87, 87, 0.664) ' + value + '%)';
     document.getElementById('progress-bar').style.background = progressColor;
   }
 
   playPause() {
-
     if (this.audio.paused === true) {
       this.audio.preload = 'auto';
       this.audio.play();
       this.spinner.show('playing');
+      this.paused = false;
       this.interval3 = setInterval(() => {
         this.changePlayState();
       }, 500);
-      this.interval1 = setInterval(() => {
-        this.changeProgressValue();
-        }, 1000);
+        this.interval1 = setInterval(() => {
+          this.changeProgressValue();
+          }, 1000);
     }
     else {
       this.audio.pause();
@@ -150,7 +162,7 @@ export class BeatStoreComponent implements OnInit {
 
   nextTrack() {
     this.trackNumber++;
-    if (this.trackNumber > this.tracks.length - 1) { this.trackNumber = 0; }
+    if (this.trackNumber >= this.tracks.length) { this.trackNumber = 0; }
     this.trackSelection = this.tracks[this.trackNumber];
     this.audio.src = this.trackSelection.sample_audio;
     this.audio.pause();
@@ -178,6 +190,7 @@ export class BeatStoreComponent implements OnInit {
       this.shuffle.state = false;
     }
   }
+  
   changePlayState() {
     if (this.audio.duration > 0) {
       this.paused = false;

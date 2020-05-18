@@ -345,6 +345,9 @@ aside {
     margin: 0px;
     padding: 0px;
 }
+.shuffle .text-danger{
+    color: #23b5c8 !important;
+}
 .controls{
     order: 1;
     display: flex;
@@ -399,7 +402,7 @@ aside {
 }
 #progress-bar {
     position: absolute;
-    background: linear-gradient(90deg, #fe2b0d 0%, rgba(87, 87, 87, 0.664) 0%);
+    background: linear-gradient(90deg, #23b5c8 0%, rgba(87, 87, 87, 0.664) 0%);
     height: 10%;
     width: 100%;
     padding: 0px;
@@ -438,7 +441,7 @@ input[type="range"]::-webkit-slider-thumb {
     height: 15px;
     width: 15px;
     border-radius: 50%;
-    background: #fe2b0d;
+    background: #23b5c8;
     cursor: pointer;
     margin-top: -1px; 
 }
@@ -461,11 +464,8 @@ input[type="range"]::-webkit-slider-thumb {
     margin-right: none;
     margin-left: auto;
 }
-.shuffle .text-danger{
-    color: #fe2b0d !important;
-}
 .store-header h1{
-    padding: 1rem 24px 0 0;
+    padding: 0 24px 0 0;
     font-weight: 400;
     font-size: 16pt;
     letter-spacing: -.4px;
@@ -474,7 +474,8 @@ input[type="range"]::-webkit-slider-thumb {
 section .artwork {
     width: 100%;
     margin: auto;
-    padding: 20px 15px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 section .artwork img {
     width: 100%;
@@ -583,7 +584,7 @@ section .artwork img {
     border-radius: 3px;
     border: none;
     cursor: pointer;
-    background-color: #fe2b0d;
+    background-color: #23b5c8;
     box-sizing: border-box;
     letter-spacing: .2px;
     -webkit-font-smoothing: antialiased;
@@ -595,7 +596,7 @@ button:focus {
     background-color: #5c5c5c;
 }
 .cart:hover {
-    color: red;
+    color: #23b5c8;
     background-color: white;
 }
 .cart i {
@@ -611,7 +612,7 @@ button:focus {
     margin: 0 5px 0 0;
     border: none;
     color: white;
-    background-color: #fe2b0d;
+    background-color: #23b5c8;
 }
 .button-icon {
     padding-right: 2px;

@@ -1,0 +1,15 @@
+.messages{
+    position: fixed;
+    top: 85%;
+    text-align: center;
+    background-color: transparent;
+    z-index: 1000;
+}
+.message{
+    padding: 1rem 2rem;
+    color: white;
+    background-color: black;
+    font-size: small;
+    display: inline-block;
+    border-radius: 8px;
+}

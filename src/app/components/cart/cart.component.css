@@ -178,6 +178,9 @@ a {
     border: none;
     padding: 10px 0;
 }
+#paypal {
+    margin: 0 1rem;
+}
 .close {
     margin-right: 13px;
     font-size: 12pt;
@@ -187,8 +190,6 @@ a {
     color: red;
 }
 .custom-control-label {
+    cursor: pointer;
     margin-left: 1.5rem;
-}
-.finalize .purchase-item {
-    margin: 1rem 0;
 }

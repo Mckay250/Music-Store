@@ -399,7 +399,7 @@ aside {
 }
 #progress-bar {
     position: absolute;
-    background: linear-gradient(90deg, #fe2b0d 0%, rgba(87, 87, 87, 0.664) 0%);
+    background: linear-gradient(90deg, rgb(17, 17, 17) 0%, rgba(87, 87, 87, 0.664) 0%);
     height: 10%;
     width: 100%;
     padding: 0px;
@@ -433,14 +433,38 @@ input[type="range"] {
     cursor: pointer;
     width: 15px;
 }
+#volume::-ms-thumb {
+    appearance: none;
+    background: white;
+    height: 15px;
+    cursor: pointer;
+    width: 15px;
+}
 input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     height: 15px;
     width: 15px;
     border-radius: 50%;
-    background: #fe2b0d;
+    background: rgb(17, 17, 17);
     cursor: pointer;
     margin-top: -1px; 
+}
+input[type="range"]::-moz-progress-bar {
+    appearance: none;
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    background: rgb(17, 17, 17);
+    cursor: pointer;
+    margin-top: -1px;
+}
+input[type="range"]::-ms-thumb {
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    background: rgb(17, 17, 17);
+    cursor: pointer;
+    margin-top: -1px;
 }
 .time {
     padding: none;
@@ -583,10 +607,13 @@ section .artwork img {
     border-radius: 3px;
     border: none;
     cursor: pointer;
-    background-color: #fe2b0d;
+    background-color: rgb(17, 17, 17);
     box-sizing: border-box;
     letter-spacing: .2px;
     -webkit-font-smoothing: antialiased;
+}
+.buttons a {
+    margin: 0 10px;
 }
 button:focus {
     outline: 0;   
@@ -595,7 +622,7 @@ button:focus {
     background-color: #5c5c5c;
 }
 .cart:hover {
-    color: red;
+    color: rgb(0, 0, 0);
     background-color: white;
 }
 .cart i {
@@ -611,7 +638,7 @@ button:focus {
     margin: 0 5px 0 0;
     border: none;
     color: white;
-    background-color: #fe2b0d;
+    background-color: #443f3fdf;
 }
 .button-icon {
     padding-right: 2px;
